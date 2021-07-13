@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\MateriaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
+
+Route::resource('estudiante', EstudianteController::class);
+
+Route::resource('materia', MateriaController::class)->parameters([
+    'materia' => 'materia'
+
+]);
+
+Route::post('estudiante/{estudiante}/add-materia',[EstudianteController::class, 'addMateria'])->name('estudiante.add-materia');
